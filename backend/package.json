@@ -1,0 +1,14 @@
+{
+  "name": "project_foro-backend",
+  "version": "1.0.0",
+  "description": "Backend del proyecto de foro.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Héctor Saravia, Christian Tapia, Pedro carrasco",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
