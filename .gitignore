@@ -1,5 +1,6 @@
 .DS_Store
 /dist
+
 /backend/node_modules
 /backend/package-lock.json
 /frontend/package-lock.json
