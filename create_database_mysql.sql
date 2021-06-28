@@ -5,7 +5,7 @@ CREATE TABLE answers
   answer      TEXT         NOT NULL COMMENT 'Texto de respuesta',
   votes       DECIMAL(10)  NOT NULL DEFAULT 0 COMMENT 'Votos de cada respuesta',
   email_user  VARCHAR(256) NOT NULL COMMENT 'Correo electrónico',
-  id_question SERIAL       NOT NULL COMMENT 'ID de cada pregunta.',
+  id_question BIGINT UNSIGNED NOT NULL COMMENT 'ID de cada pregunta.',
   PRIMARY KEY (id)
 ) COMMENT 'Respuestas a cada pregunta';
 
@@ -19,7 +19,7 @@ CREATE TABLE career
 (
   id        SERIAL       NOT NULL,
   name      VARCHAR(256) NOT NULL,
-  id_school SERIAL       NOT NULL,
+  id_school BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -30,7 +30,7 @@ CREATE TABLE courses
 (
   id        SERIAL       NOT NULL,
   name      VARCHAR(256) NOT NULL,
-  id_career SERIAL       NOT NULL,
+  id_career BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -43,7 +43,7 @@ CREATE TABLE questions
   votes      DECIMAL(10)  NOT NULL DEFAULT 0 COMMENT 'Votos de cada pregunta',
   question   TEXT         NOT NULL COMMENT 'Texto de la pregunta',
   email_user VARCHAR(256) NOT NULL COMMENT 'Correo electrónico',
-  id_courses SERIAL       NOT NULL,
+  id_courses BIGINT UNSIGNED NOT NULL,
   state      BOOLEAN      NOT NULL DEFAULT 1,
   PRIMARY KEY (id)
 ) COMMENT 'La tabla de preguntas';
