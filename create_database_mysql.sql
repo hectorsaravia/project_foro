@@ -67,7 +67,7 @@ ALTER TABLE school
 CREATE TABLE users
 (
   email    VARCHAR(256) NOT NULL COMMENT 'Correo electrónico',
-  password VARCHAR(30)  NOT NULL COMMENT 'Contraseña',
+  password CHAR(60)  NOT NULL COMMENT 'Contraseña',
   rol      DECIMAL(1)   NOT NULL DEFAULT 0 COMMENT 'Roles: 0 para alumnos, 1 para ayudantes y 2 para profesores',
   name     VARCHAR(256) NOT NULL COMMENT 'Nombre del usuario',
   rut      VARCHAR(10)  NOT NULL COMMENT 'Rut del usuario',
