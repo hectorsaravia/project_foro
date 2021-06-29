@@ -14,25 +14,40 @@ const getTables = (result) => {
  });
 }
 
+const login = (data,result) => {
+ db.query(`SELECT password FROM users WHERE rut=?;`, [data.rut],
+  (err,results) => {
+  if (err) {
+   console.log(err);
+   result(err,null);
+  } else {
+   bcrypt.compare(data.password, results[0].password, (error,check) => {
+    if (error) {
+     console.log(error);
+    } else {
+     result(null,check);
+    }
+   });
+  };
+ });
+}
+
 const register = (data, result) => {
  password = data.password;
- bcrypt.hash(password, saltRounds)
- .then(function (hashPassword) {
-  password = hashPassword;
- }).catch(function (err) {
-  console.log(err);
-  result(err,null);
+ bcrypt.genSalt(saltRounds, function(err,salt){
+  bcrypt.hash(password, salt, function(err, hash){
+   db.query(`INSERT INTO users(email,password,rut,name,rol) VALUES(?,?,?,?,?)`,
+   [data.email, hash, data.rut, data.name, data.rol],
+   (err, results) => {
+    if (err) {
+     console.log(err);
+     result(err,null);
+    } else {
+     result(null,results);
+    };
+   }); 
+  });
  });
- db.query(`INSERT INTO users(email,password,rut,name,rol) VALUES(?,?,?,?,?)`,
-  [data.email, password, data.rut, data.name, data.rol],
-  (err, results) => {
-   if (err) {
-    console.log(err);
-    result(err,null);
-   } else {
-    result(null,results);
-   };
-  }); 
 }
 
 
@@ -40,5 +55,6 @@ const register = (data, result) => {
 
 module.exports = {
  getTables,
- register
+ register,
+ login
 }

@@ -29,8 +29,14 @@ router.post('/register', (req, res) => {
 
 router.post('/test', (req,res) => {
  const data = req.body;
- res.json( {'message': 'wena'} );
- console.log(data);
-})
+ queries.login(data, (err,results) => {
+  if (err) {
+   res.send(err);
+  } else {
+   res.json(results);
+   console.log(results);
+  };
+ });
+});
 
 module.exports = router;
