@@ -3,7 +3,9 @@ const express = require('express');
 const cors = require('cors');
 
 //Importar rutas
-const routes = require('./routes');
+const index = require('./routes/index');
+const register = require('./routes/register');
+const test = require('./routes/test');
 
 //Se define app como la variable de ExpressJS
 const app = express();
@@ -18,7 +20,9 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.use('/api', routes);
+app.use('/api/index', index);
+app.use('/api/register', register);
+app.use('/api/test', test);
 
 app.get('/', (req,res) => {
  res.json({'message': 'ok'})
