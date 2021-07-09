@@ -1,18 +1,6 @@
 //Requerimientos para backend. No pasar a ES6
 const express = require('express');
 const cors = require('cors');
-const { ServiceBusClient } = require('@azure/service-bus');
-
-//conexión al bus de azure
-const connectionString = 'Endpoint=sb://proyectoforo.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=L9FZGCrMgPsHMStHzWW37uRyDpBj7nWtaA3If9tA1/o=';
-const serviceBusClient = new ServiceBusClient(connectionString);
-
-//se crean los objetos que envían y reciben mensajes a la cola del bus
-const sender = serviceBusClient.createSender('myqueue');
-const receiver = serviceBusClient.createReceiver('myqueue');
-
-//mensaje enviado de prueba al bus
-sender.sendMessages({'body': 'hoal'});
 
 //Importar rutas
 const routes = require('./routes');
@@ -36,6 +24,25 @@ app.get('/', (req,res) => {
  res.json({'message': 'ok'})
 });
 
+//manejo de error 400
+app.use(function (req, res, next) {
+ var err = new Error('Not Found');
+ err.status = 404;
+ next(err);
+});
+
+//manejo de error 500
+if (app.get('env') === 'development') {
+ app.use(function (err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+   message: err.message,
+   error: err
+  });
+ });
+}
+
+//mensaje de escucha en el puerto 3000
 app.listen(port, () => {
  console.log(`Server en http://localhost:${port}`)
 });
