@@ -6,6 +6,9 @@
 /frontend/package-lock.json
 /frontend/node_modules
 
+/backend/send.js
+/backend/receive.js
+
 # local env files
 .env.local
 .env.*.local
