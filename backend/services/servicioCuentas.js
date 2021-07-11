@@ -23,16 +23,14 @@ async function login (data) {
   .then( ([rows,fields]) => {
 
     //si no hay resultados, entonces el rut no existe en la base de datos
-    if (rows.length === 0) return false;
+    if (rows.length === 0) check = false;
 
     //se comparan la contraseña dada y la contraseña en la base desencriptada
-    else {
-      check = bcrypt.compareSync(data.password,rows[0].password);
-      console.log(`contraseñas coinciden: ${check}`);
-    }
+    else check = bcrypt.compareSync(data.password,rows[0].password);
   })
 
   //se retorna el valor de check
+  console.log(`contraseñas coinciden: ${check}`);
   return check;
 }
 
