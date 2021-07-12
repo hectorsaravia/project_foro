@@ -8,7 +8,7 @@ module.exports = async function nueva_pregunta (data) {
 
     //se ejecuta la query para ingresar una nueva pregunta
     await db.promise().query(`INSERT INTO questions(email_user,id_courses,question,description)
-                            VALUES(?,?,?,?));`, [data.email, data.id_courses, data.question, data.description])
+                            VALUES(?,?,?,?);`, [data.email, data.id_courses, data.question, data.description])
     .then( ([rows,fields])  => {
 
         //si el resultado es 0 entonces no hay facultades, en otro caso se retornan
