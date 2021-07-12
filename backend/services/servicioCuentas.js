@@ -29,12 +29,61 @@ async function login (data) {
     else check = bcrypt.compareSync(data.password,rows[0].password);
   })
 
+  //si hay un error, se retorna el error
+  .catch((error) => {
+    check = error;
+  })
+
   //se retorna el valor de check
   console.log(`contraseñas coinciden: ${check}`);
   return check;
 }
 
 
+//función asíncrona que realiza el registro de las cuentas
+async function registrar_usuario (data) {
+
+  //variable que retornará el resultado al final de la ejecución
+  let result;
+
+  //la variable hash es el resultado de usar bcrypt para encriptar la contraseña
+  //provista para ser usada en la base de datos
+  const hash = bcrypt.hashSync(data.password, 10);
+
+  //si es que el usuario ya existe, se prohibe una nueva inserción
+  let [rows,fields] = await db.promise().query(`SELECT rut,email FROM users WHERE rut=? OR email=?`, 
+  [data.rut, data.email]);
+
+  //si es que ya existe en la base de datos entonces el resultado será false
+  if (rows.length > 0) result = false;
+
+  //en otro caso se procede a realizar la inserción
+  else {
+
+    //query que inserta un nuevo correo a la base de datos
+    await db.promise().query(`INSERT INTO users(email,password,rut,name,rol) VALUES(?,?,?,?,?)`,
+    [data.email, hash, data.rut, data.name, data.rol])
+    .then( ([rows,fields]) => {
+
+      //se retorna el resultado de la inserción realizada, si es que ocurrió como se esperaba
+      //se retorna el mensaje de vuelta
+      result = rows.affectedRows;
+      if (result === 1) result = true;
+      else result = false;
+
+    })
+    .catch((error) => {
+      result = error;
+    })
+  } 
+
+  //retorno del resultado
+  console.log(`resultado de registro: ${result}`);
+  return result;
+ }
+
+
+ 
 //función asíncrona main
 async function main() {
 
@@ -70,7 +119,7 @@ async function main() {
         await queueReceiver.completeMessage(message);   
         
         //la variable result es el retorno de la función login
-        let result = await login(data);
+        let result = await registrar_usuario(data);
 
         //se define el json response, que es la respuesta hacia el cliente mediante
         //la respuesta a la cola response_login
@@ -98,6 +147,6 @@ async function main() {
 
 //llamada al proceso main y se imprime por pantalla si ocurre un error
 main().catch((err) => {
-  console.log("sendMessages Sample: Error occurred: ", err);
+  console.log("Error:  ", err);
   process.exit(1);
 });
