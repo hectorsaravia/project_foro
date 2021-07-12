@@ -2,9 +2,7 @@
 //además de importar la configuración de la base de datos
 const { ServiceBusClient } = require('@azure/service-bus');
 
-const mostrar_preguntas_usuario = require('../database/mostrar_preguntas_usuario');
-const nueva_pregunta_usuario = require('../database/nueva_pregunta_usuario');
-const mostrar_pregunta = require('../database/mostrar_pregunta');
+const nueva_respuesta_usuario = require('../database/nueva_respuesta_usuario');
 
 //se define la conexión con el bus de servicio de azure
 //y la cola a la cual derivan los mensajes
@@ -19,7 +17,7 @@ async function main() {
   //parámetros dados al principio del script, el cual estará escuchando a los mensajes
   //bajo la dirección de "login"
   const sbClient = new ServiceBusClient(connectionString);
-  const queueReceiver = sbClient.createReceiver(topicName, "servicioPreguntas");
+  const queueReceiver = sbClient.createReceiver(topicName, "servicioRespuestas");
 
   //el primer try de la función asíncrona que se ejecuta si es que no hay errores
   try {
@@ -50,13 +48,11 @@ async function main() {
         let result;
 
         //se derivará a la función que corresponda según la razón del mensaje
-        if (data.reason === "mostrar_preguntas_usuario") result = await mostrar_preguntas_usuario(data);
-        else if (data.reason === "nueva_pregunta_usuario") result = await nueva_pregunta_usuario(data);
-        else if (data.reason === "mostrar_pregunta") result = await mostrar_pregunta(data);
+        if (data.reason === "mostrar_preguntas_usuario") result = await nueva_respuesta_usuario(data);
 
         //se define el json response, que es la respuesta hacia el cliente mediante
         //la respuesta a la cola response_login
-        let response = { body: result, to: "servicioPreguntas_res" };
+        let response = { body: result, to: "servicioRespuestas_res" };
 
         //se crea el objeto sender cliente para enviar el json descrito anteriormente
         const sender = sbClient.createSender(topicName);

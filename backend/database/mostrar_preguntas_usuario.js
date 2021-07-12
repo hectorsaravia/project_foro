@@ -7,8 +7,8 @@ module.exports = async function mostrar_preguntas_usuario (data) {
     let result;
 
     //se ejecuta la query para obtener todas las preguntass
-    await db.promise().query(`SELECT question,description,votes,state FROM questions,users
-                            FROM users,questions WHERE questions.email_user=? `, [data.email])
+    await db.promise().query(`SELECT questions.id,questions.question,questions.description,questions.votes,questions.state 
+                            FROM questions,users WHERE questions.email_user=? AND questions.email_user=users.email`, [data.email])
     .then( ([rows,fields]) => {
 
         //si el resultado es 0 entonces no hay cursos, en otro caso se retornan
@@ -28,5 +28,6 @@ module.exports = async function mostrar_preguntas_usuario (data) {
     })
 
     //acuso de resultado de la operación y retorno del resultado
+    console.log(result);
     return result;
 }
