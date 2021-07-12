@@ -9,7 +9,7 @@ module.exports = async function login (data) {
  let check;
 
  //query en la base de datos que busca el rut en la base de datos
- await db.promise().query(`SELECT password FROM users WHERE rut=?;`, [data.rut])
+ await db.promise().query(`SELECT password FROM users WHERE email=?;`, [data.email])
  .then( ([rows,fields]) => {
 
    //si no hay resultados, entonces el rut no existe en la base de datos
