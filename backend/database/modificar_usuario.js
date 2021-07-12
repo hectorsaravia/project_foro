@@ -27,9 +27,10 @@ module.exports = async function modificar_usuario(data) {
    //si la modificación ocurrió se retorno true, en otro caso es false
    if (rows.affectedRows === 1) result = true;
    else result = false;
+
   })
 
-
+  //acuso recibo de la operación y se retorna el resultado
  console.log(`se realizó la modificación; ${result}`);
  return result;
  };
