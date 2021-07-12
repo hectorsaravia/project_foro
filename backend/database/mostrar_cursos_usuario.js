@@ -7,8 +7,8 @@ module.exports = async function mostrar_cursos_usuario (data) {
     let result;
 
     //se ejecuta la query para obtener todas los cursos
-    await db.promise().query(`SELECT id.courses,courses.name FROM user_courses,courses
-                            WHERE user_courses.email_user=? AND courses.id=user_courses.id_courses;`,
+    await db.promise().query(`SELECT id_courses,courses.name FROM users_courses,courses
+                            WHERE users_courses.email_user=? AND courses.id=users_courses.id_courses;`,
                             [data.email])
     .then( ([rows,fields])  => {
 
