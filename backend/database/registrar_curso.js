@@ -7,7 +7,7 @@ module.exports = async function registrar_curso(data) {
  let result;
  
  //primero se obtiene el id del nombre del curso a registrar
- const [rows, fields] = await db.promise().query(`SELECT id FROM courses WHERE name=?`, [data.name_course])
+ let [rows, fields] = await db.promise().query(`SELECT id FROM courses WHERE name=?`, [data.name_course])
 
  //si no existe el resultado, se retorna un false
  if (rows.lenght === 0) result = false;
