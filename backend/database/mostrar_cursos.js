@@ -13,13 +13,19 @@ module.exports = async function mostrar_cursos (data) {
         
         //si no hay cursos, se retorna un false, en otro caso se realiza el retorno
         if (rows.lenght === 0) result = false;
-        else result = JSON.stringify(rows);
+        else {
+            result = rows;
+
+            for (let row of rows) {
+                console.log(row);    
+            }
+        };
     
     })
 
     //en caso de ocurrir un error, este será el retorno
     .catch((error) => {
-    result = error;
+        result = error;
     })
 
     console.log(`cursos obtenidos: ${result}`)
