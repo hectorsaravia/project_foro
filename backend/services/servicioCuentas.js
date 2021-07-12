@@ -83,7 +83,29 @@ async function registrar_usuario (data) {
  }
 
 
- 
+ //función asíncrona para mostrar datos del usuario
+ async function mostrar_usuario (data) {
+
+  //variable result que será el resultado del ejercicio
+  let result;
+
+  //query que busca en la base de datos los datos del usuario
+  await db.promise().query(`SELECT email,rol,name,rut FROM users WHERE rut=?`,[data.rut])
+  .then( ([rows, fields]) => {
+
+    //si no existe el usuario, el resultado entonces es falso
+    if (rows.length === 0) result = false;
+
+    //si el resultado existe, se copia a la variable result
+    else result = rows[0];
+  })
+
+  //despliegue en consola del usuario a mostrar y retorno
+  console.log(`usuario mostrado: ${JSON.stringify(result)}`);
+  return result;
+}
+
+
 //función asíncrona main
 async function main() {
 
@@ -119,7 +141,7 @@ async function main() {
         await queueReceiver.completeMessage(message);   
         
         //la variable result es el retorno de la función login
-        let result = await registrar_usuario(data);
+        let result = await mostrar_usuario(data);
 
         //se define el json response, que es la respuesta hacia el cliente mediante
         //la respuesta a la cola response_login
