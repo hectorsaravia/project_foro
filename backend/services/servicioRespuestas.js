@@ -2,7 +2,7 @@
 //además de importar la configuración de la base de datos
 const { ServiceBusClient } = require('@azure/service-bus');
 
-const nueva_respuesta_usuario = require('../database/nueva_respuesta_usuario');
+const nueva_respuesta = require('../database/nueva_respuesta');
 const mostrar_respuestas = require('../database/mostrar_respuestas');
 
 //se define la conexión con el bus de servicio de azure
@@ -49,8 +49,8 @@ async function main() {
         let result;
 
         //se derivará a la función que corresponda según la razón del mensaje
-        if (data.reason === "mostrar_preguntas_usuario") result = await nueva_respuesta_usuario(data);
-        else if (data.reason === "mostrar_preguntas_usuario") result = await mostrar_respuestas(data);
+        if (data.reason === "nueva_respuesta") result = await nueva_respuesta(data);
+        else if (data.reason === "mostrar_respuesta") result = await mostrar_respuestas(data);
 
         //se define el json response, que es la respuesta hacia el cliente mediante
         //la respuesta a la cola response_login
