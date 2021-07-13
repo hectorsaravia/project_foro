@@ -7,7 +7,7 @@ module.exports = async function mostrar_preguntas_usuario (data) {
     let result;
 
     //se ejecuta la query para obtener todas las preguntas
-    await db.promise().query(`SELECT * FROM questions WHERE id=?`, [data.id_question])
+    await db.promise().query(`SELECT * FROM questions WHERE id=?`, [data.id])
     .then( ([rows,fields]) => {
 
         //si el resultado es 0 entonces no hay preguntas, en otro caso se retornan

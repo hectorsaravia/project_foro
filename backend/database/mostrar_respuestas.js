@@ -8,7 +8,7 @@ module.exports = async function mostrar_respuestas (data) {
 
     //se ejecuta la query para obtener todas las preguntas
     await db.promise().query(`SELECT answers.answer,answers.votes,answers.email_user FROM answers,questions 
-                            WHERE answers.id_question=question.id AND question.id=?;`, [data.id_question])
+                            WHERE answers.id_question=questions.id AND questions.id=?;`, [data.id])
     .then( ([rows,fields]) => {
 
         //si el resultado es 0 entonces no hay preguntas, en otro caso se retornan
