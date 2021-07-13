@@ -44,8 +44,27 @@ module.exports = async function votar_pregunta (data) {
 
     else result=false;
 
+    if (result = true) {
+     
+        await db.promise().query(`INSERT INTO questions_votes(email_user,id_question) VALUES(?,?)`
+        ,[data.email, data.id])
+        .then( ([rows,fields])  => {
+
+            //si el resultado es 0 entonces no se ingresó la respuesta, en otro caso se retorna true
+            if (rows.affectedRows === 1) result = true;
+            else result = false;
+    
+        })
+    
+        //si ocurre un error, el resultado será el error
+        .catch( (error) => {
+            result = error;
+        })
+    
+    }
+
     //acuso de resultado de la operación y retorno del resultado
-    console.log(`pregunta insertada: ${result}`);
+    console.log(`voto realizado: ${result}`);
     return result;
 
 }

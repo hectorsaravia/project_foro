@@ -7,7 +7,7 @@ module.exports = async function mostrar_respuestas (data) {
     let result;
 
     //se ejecuta la query para obtener todas las preguntas
-    await db.promise().query(`SELECT answers.answer,answers.votes,answers.email_user FROM answers,questions 
+    await db.promise().query(`SELECT answers.id,answers.answer,answers.votes,answers.email_user FROM answers,questions 
                             WHERE answers.id_question=questions.id AND questions.id=?;`, [data.id])
     .then( ([rows,fields]) => {
 

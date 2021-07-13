@@ -3,6 +3,7 @@
 const { ServiceBusClient } = require('@azure/service-bus');
 
 const mostrar_preguntas_usuario = require('../database/mostrar_preguntas_usuario');
+const mostrar_preguntas_facultad = require('../database/mostrar_preguntas_facultad');
 const nueva_pregunta_usuario = require('../database/nueva_pregunta_usuario');
 const mostrar_pregunta = require('../database/mostrar_pregunta');
 const votar_pregunta = require('../database/votar_pregunta');
@@ -53,6 +54,7 @@ async function main() {
 
         //se derivará a la función que corresponda según la razón del mensaje
         if (data.reason === "mostrar_preguntas_usuario") result = await mostrar_preguntas_usuario(data);
+        else if (data.reason === "mostrar_preguntas_facultad") result = await mostrar_preguntas_facultad(data);
         else if (data.reason === "nueva_pregunta_usuario") result = await nueva_pregunta_usuario(data);
         else if (data.reason === "mostrar_pregunta") result = await mostrar_pregunta(data);
         else if (data.reason === "votar_pregunta") result = await votar_pregunta(data);

@@ -10,6 +10,7 @@ const registrar_curso = require('../database/registrar_curso');
 const comprobar_usuario = require('../database/comprobar_usuario');
 const mostrar_facultades = require('../database/mostrar_facultades');
 const mostrar_cursos_usuario = require('../database/mostrar_cursos_usuario');
+const mostrar_carreras = require('../database/mostrar_carreras');
 
 //se define la conexión con el bus de servicio de azure
 //y la cola a la cual derivan los mensajes
@@ -63,6 +64,7 @@ async function main() {
         else if (data.reason === 'registrar_curso') result = await registrar_curso(data);
         else if (data.reason === 'mostrar_facultades') result = await mostrar_facultades();
         else if (data.reason === 'mostrar_cursos_usuario') result = await mostrar_cursos_usuario(data);
+        else if (data.reason === 'mostrar_carreras') result = await mostrar_carreras(data);
 
         //se define el json response, que es la respuesta hacia el cliente mediante
         //la respuesta a la cola response_login

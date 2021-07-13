@@ -32,11 +32,41 @@ module.exports = async function registrar_usuario (data) {
       else result = false;
 
     })
+
+    //en caso de error, este será el resultado
     .catch((error) => {
       result = error;
     })
+
+    //se define rows como el resultado de las carreras 
+    const [rows,fields] = await db.promise().query(`SELECT id FROM courses WHERE id_career=?;`, [data.id_career]);
     
-    } 
+    //si no hay resultados, entonces el resultado es falso, en otro caso se realiza la inserción
+    if(rows.length === 0) result = false;
+    else {
+      
+      //se realiza una query por curso que hay
+      for(let row of rows) {
+
+        console.log(row.id);
+
+        //se realiza la inserción por cada valor que se recibe
+        await db.promise().query(`INSERT INTO users_courses(email_user,id_courses) VALUES(?,?)`,[data.email,row.id])
+        .then( ([newrows,newfields]) => {
+          
+          //en caso de que no se modificaran los valores, resultado es false, en otro caso esa true
+          if(newrows.affectedRows === 0) result = false;
+          else result=true;
+
+        })
+        
+        //si existe un error, este será el resultado
+        .catch((error) => {
+          result=error;
+        });
+      };
+    };  
+  };
 
   //retorno del resultado
   console.log(`resultado de registro: ${result}`);
