@@ -5,6 +5,8 @@ const { ServiceBusClient } = require('@azure/service-bus');
 const mostrar_preguntas_usuario = require('../database/mostrar_preguntas_usuario');
 const nueva_pregunta_usuario = require('../database/nueva_pregunta_usuario');
 const mostrar_pregunta = require('../database/mostrar_pregunta');
+const votar_pregunta = require('../database/votar_pregunta');
+const cerrar_pregunta = require('../database/cerrar_pregunta');
 
 //se define la conexión con el bus de servicio de azure
 //y la cola a la cual derivan los mensajes
@@ -53,6 +55,8 @@ async function main() {
         if (data.reason === "mostrar_preguntas_usuario") result = await mostrar_preguntas_usuario(data);
         else if (data.reason === "nueva_pregunta_usuario") result = await nueva_pregunta_usuario(data);
         else if (data.reason === "mostrar_pregunta") result = await mostrar_pregunta(data);
+        else if (data.reason === "votar_pregunta") result = await votar_pregunta(data);
+        else if (data.reason === "cerrar_pregunta") result = await cerrar_pregunta(data);
 
         //se define el json response, que es la respuesta hacia el cliente mediante
         //la respuesta a la cola response_login
