@@ -8,7 +8,7 @@ module.exports = async function nueva_respuesta (data) {
 
     //se ejecuta la query para ingresar una nueva respuesta
     await db.promise().query(`INSERT INTO answers(email_user,id_question,answer) VALUES(?,?,?);`,
-    [data.email, data.id_question, data.answer])
+    [data.email, data.id, data.answer])
     .then( ([rows,fields])  => {
 
         //si el resultado es 0 entonces no se ingresó la respuesta, en otro caso se retorna true
