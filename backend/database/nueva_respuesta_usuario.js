@@ -7,7 +7,7 @@ module.exports = async function nueva_respuesta (data) {
     let result;
 
     //se ejecuta la query para ingresar una nueva respuesta
-    await db.promise().query(`INSERT INTO answers(email_user,id_question,answer) VALUES(?,?,?,?);`,
+    await db.promise().query(`INSERT INTO answers(email_user,id_question,answer) VALUES(?,?,?);`,
     [data.email, data.id_question, data.answer])
     .then( ([rows,fields])  => {
 
